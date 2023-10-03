@@ -1,0 +1,16 @@
+um script que recebe como entrada o tamanho da senha e as flags:
+--use-numbers
+--use-uppercase
+--use-lowercase
+--use-symbols
+
+se passar só o tamanho gera com todas as flags ativas
+se passar só numbers, gera só números (o mesmo com as outras tbm)
+se passar numbers e uppercase, gera numeros só numero e uppercases etc
+se não passar nenhum argumento dá erro dizendo que precisa pelo menos do tamanho
+
+
+to do
+- validação de argumentos (flags) (criar métodos baseados no process.argv)
+- passar mais parâmetros para a função gerarSenha()
+- flag pra salvar a senha e adicioná-la em um arquivo txt

@@ -44,7 +44,33 @@ function shuffleString(str){
     return stringEmbaralhada;
 }
 
-function gerarSenha(comprimento){
+function validacaoArg() {
+    const flags = ["--use-numbers", "--use-uppercase", "--use-lowercase", "--use-symbols"];
+    
+    if (process.argv.length < 4){
+        return false;
+    }
+
+    let argsFlags = process.argv.slice(3);
+
+    for (i = 0; i < argsFlags.length; i++){
+        if (!flags.includes(argsFlags[i])){
+            if (argsFlags.length > flags.length){
+                console.error('args out of index');
+            }
+            console.error('erro. argumento inválido');
+            process.exit(1);
+        } else{
+            //console.log('argumento válido!')
+            var control = true;
+        }
+    }
+    if (control){
+        return true;
+    }
+}
+
+function gerarSenha(comprimento) {
     // armazenando todos os caracteres em diferentes variáveis
     const caracteresEspeciais = '!@#$%^&*()_+{}[]|;:,.<>?';
     const letrasMinusculas = 'abcdefghijklmnopqrstuvwxyz';
@@ -54,6 +80,9 @@ function gerarSenha(comprimento){
 
     // juntando todos os caracteres em uma string só 
     const caracteres = caracteresEspeciais + letrasMinusculas + letrasMaiusculas + numeros;
+
+    // validando argumentos
+    validacaoArg();
 
     // criando a senha e pegando valores aleatórios de cada string para armazenar em "senha"
     let senha = '';
@@ -66,7 +95,7 @@ function gerarSenha(comprimento){
 }
 
 console.log('senha gerada: ' + gerarSenha(tamanhoSenha));
-    if  (tamanhoSenha < 10){
-        console.log("Atenção! Senhas com mais caracteres possuem mais segurança!");
-    }
+if (tamanhoSenha < 10){
+    console.log("Atenção! Senhas com mais caracteres possuem mais segurança!");
+}
 

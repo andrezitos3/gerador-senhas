@@ -5,15 +5,12 @@
 const crypto = require("crypto");
 
 // "--use-numbers", "--use-uppercase", "--use-lowercase", "--use-symbols"
-const minhasFlags = {
-    1: "--use-numbers",
-    2: "--use-uppercase",
-    3: "--use-lowercase",
-    4: "--use-symbols"
-}
 
 // armazenando o tamanho da senha desejada pelo usuário
 const tamanhoSenha = process.argv[2];
+
+// criando a senha
+let senha = '';
 
 if (tamanhoSenha === undefined || isNaN(tamanhoSenha) || tamanhoSenha[0] == 0 ||  tamanhoSenha < 0) {
 
@@ -27,6 +24,8 @@ if (tamanhoSenha === undefined || isNaN(tamanhoSenha) || tamanhoSenha[0] == 0 ||
 
     process.exit(1);
 }
+
+validacaoArg();
 
 // definindo os métodos
 
@@ -55,6 +54,7 @@ function shuffleString(str){
 function validacaoArg() {
     const flags = ["--use-numbers", "--use-uppercase", "--use-lowercase", "--use-symbols"];
     
+    // verifica se apenas o comprimento foi dado
     if (process.argv.length < 4){
         return false;
     }
@@ -75,7 +75,6 @@ function validacaoArg() {
     }
 }
 
-
 function gerarSenha(comprimento, flags) {
     // armazenando todos os caracteres em diferentes variáveis
     const caracteresEspeciais = '!@#$%^&*()_+{}[]|;:,.<>?';
@@ -87,12 +86,6 @@ function gerarSenha(comprimento, flags) {
     // juntando todos os caracteres em uma string só 
     const caracteres = caracteresEspeciais + letrasMinusculas + letrasMaiusculas + numeros;
 
-    // validando argumentos
-    validacaoArg();
-    
-    // criando a senha e pegando valores aleatórios de cada string para armazenar em "senha"
-    let senha = '';
-
     if (process.argv.length == 3){
 
         for (i = 0; i < comprimento; i++){
@@ -101,12 +94,33 @@ function gerarSenha(comprimento, flags) {
 
         return shuffleString(senha);
     } else {
-        if (flags.includes(argsFlags)){
-            
+        
+        // objeto pra armazenar as flags, um valor falso e a variável correspondente
+        objFlags = {
+            num: [false, numeros],
+            upp: [false, letrasMaiusculas],
+            low: [false, letrasMinusculas],
+            symb: [false, caracteresEspeciais]
+        }
+
+        // verificando se a flag corresponde ao argumento passado na função gerarSenha
+        for (i = 0; i < flags.length; i++){
+            if (flags[i] === "--use-numbers"){
+                objFlags.num = true;
+            }
+            if (flags[i] === "--use-uppercase"){
+                objFlags.upp = true;
+            }
+            if (flags[i] === "--use-lowercase"){
+                objFlags.low = true;
+            }
+            if (flags[i] === "--use-symbols"){
+                objFlags.symb = true;
+            }
         }
     }
 }
-console.log('senha gerada: ' + gerarSenha(tamanhoSenha, minhasFlags));
+console.log('senha gerada: ' + gerarSenha(tamanhoSenha, argsFlags));
 if (tamanhoSenha < 10){
     console.log("Atenção! Senhas com mais caracteres possuem mais segurança!");
 }

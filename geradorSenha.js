@@ -120,7 +120,7 @@ function gerarSenha(comprimento, flags) {
         }
     }
 }
-console.log('senha gerada: ' + gerarSenha(tamanhoSenha, argsFlags));
+console.log('senha gerada: ' + gerarSenha(tamanhoSenha));
 if (tamanhoSenha < 10){
     console.log("Atenção! Senhas com mais caracteres possuem mais segurança!");
 }
